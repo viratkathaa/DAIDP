@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ad Generator — Multimodal Creative Platform</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>AI Ad Generator</span>
+            </div>
+            <div class="demo-badge" id="demoBadge">DEMO MODE</div>
+        </div>
+        <nav class="pipeline-nav">
+            <div class="nav-label">Pipeline Stages</div>
+            <ul>
+                <li class="nav-item active" data-step="brief">
+                    <span class="step-num">1</span>
+                    <span class="step-label">Campaign Brief</span>
+                    <span class="step-status"></span>
+                </li>
+                <li class="nav-item" data-step="personas">
+                    <span class="step-num">2</span>
+                    <span class="step-label">Audience Personas</span>
+                    <span class="step-status"></span>
+                </li>
+                <li class="nav-item" data-step="angles">
+                    <span class="step-num">3</span>
+                    <span class="step-label">Campaign Angles</span>
+                    <span class="step-status"></span>
+                </li>
+                <li class="nav-item" data-step="scripts">
+                    <span class="step-num">4</span>
+                    <span class="step-label">Ad Scripts</span>
+                    <span class="step-status"></span>
+                </li>
+                <li class="nav-item" data-step="storyboards">
+                    <span class="step-num">5</span>
+                    <span class="step-label">Storyboards</span>
+                    <span class="step-status"></span>
+                </li>
+                <li class="nav-item" data-step="evaluation">
+                    <span class="step-num">6</span>
+                    <span class="step-label">Evaluation</span>
+                    <span class="step-status"></span>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="metrics-mini" id="metricsMini">
+                <div class="metric-row"><span>Total Time</span><span id="totalTime">—</span></div>
+                <div class="metric-row"><span>API Calls</span><span id="apiCalls">0</span></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Step 1: Campaign Brief -->
+        <section class="step-panel active" id="panel-brief">
+            <div class="panel-header">
+                <h1>Campaign Brief</h1>
+                <p>Provide your brand and campaign information to start the AI-powered ad generation pipeline.</p>
+            </div>
+            <form id="briefForm" class="brief-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="brand_name">Brand Name *</label>
+                        <input type="text" id="brand_name" required placeholder="e.g. AdForge AI">
+                    </div>
+                    <div class="form-group">
+                        <label for="product_name">Product / Service *</label>
+                        <input type="text" id="product_name" required placeholder="e.g. AI Ad Generation Platform">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="product_description">Product Description *</label>
+                        <textarea id="product_description" rows="3" required placeholder="Describe your product or service in detail..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="target_market">Target Market *</label>
+                        <input type="text" id="target_market" required placeholder="e.g. Startup founders, SMB marketers">
+                    </div>
+                    <div class="form-group">
+                        <label for="marketing_objectives">Marketing Objectives *</label>
+                        <input type="text" id="marketing_objectives" required placeholder="e.g. Drive sign-ups, increase brand awareness">
+                    </div>
+                    <div class="form-group">
+                        <label for="platform">Ad Platform</label>
+                        <select id="platform">
+                            <option value="instagram">Instagram (Reels/Stories)</option>
+                            <option value="youtube">YouTube (Pre-roll)</option>
+                            <option value="facebook">Facebook (Feed)</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="website">Website (Banner)</option>
+                            <option value="mobile_app">Mobile App</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget_tier">Budget Tier</label>
+                        <select id="budget_tier">
+                            <option value="low">Low</option>
+                            <option value="mid" selected>Mid</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="brand_guidelines">Brand Guidelines</label>
+                        <textarea id="brand_guidelines" rows="2" placeholder="Colors, tone, voice, logo rules..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="prohibited_claims">Prohibited Claims</label>
+                        <input type="text" id="prohibited_claims" placeholder="e.g. guaranteed results, #1 product">
+                    </div>
+                    <div class="form-group">
+                        <label for="competitors">Competitors to Avoid</label>
+                        <input type="text" id="competitors" placeholder="e.g. CompetitorA, CompetitorB">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitBrief">
+                    <span class="btn-text">Start Pipeline</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Step 2: Personas -->
+        <section class="step-panel" id="panel-personas">
+            <div class="panel-header">
+                <h1>Audience Personas</h1>
+                <p>AI-generated target audience segments based on your campaign brief.</p>
+                <div class="constraint-badge" id="constraint-personas"></div>
+            </div>
+            <div class="cards-grid" id="personasGrid"></div>
+            <div class="step-actions">
+                <button class="btn btn-outline" onclick="app.goToStep('brief')">Back</button>
+                <button class="btn btn-primary" id="genAnglesBtn" onclick="app.generateAngles()">
+                    <span class="btn-text">Generate Campaign Angles</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 3: Angles -->
+        <section class="step-panel" id="panel-angles">
+            <div class="panel-header">
+                <h1>Campaign Angles &amp; Hooks</h1>
+                <p>Strategic marketing directions with hooks targeting each persona.</p>
+                <div class="constraint-badge" id="constraint-angles"></div>
+            </div>
+            <div class="cards-grid" id="anglesGrid"></div>
+            <div class="step-actions">
+                <button class="btn btn-outline" onclick="app.goToStep('personas')">Back</button>
+                <button class="btn btn-primary" id="genScriptsBtn" onclick="app.generateScripts()">
+                    <span class="btn-text">Generate Ad Scripts</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 4: Scripts -->
+        <section class="step-panel" id="panel-scripts">
+            <div class="panel-header">
+                <h1>Ad Concepts &amp; Scripts</h1>
+                <p>Detailed advertisement scripts with scene-by-scene breakdowns.</p>
+                <div class="constraint-badge" id="constraint-scripts"></div>
+            </div>
+            <div id="scriptsContainer"></div>
+            <div class="step-actions">
+                <button class="btn btn-outline" onclick="app.goToStep('angles')">Back</button>
+                <button class="btn btn-primary" id="genStoryboardsBtn" onclick="app.generateStoryboards()">
+                    <span class="btn-text">Generate Storyboards</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 5: Storyboards -->
+        <section class="step-panel" id="panel-storyboards">
+            <div class="panel-header">
+                <h1>Storyboards &amp; Video Variants</h1>
+                <p>Production-ready storyboards with visual direction and image prompts.</p>
+                <div class="constraint-badge" id="constraint-storyboards"></div>
+            </div>
+            <div id="storyboardsContainer"></div>
+            <div class="step-actions">
+                <button class="btn btn-outline" onclick="app.goToStep('scripts')">Back</button>
+                <button class="btn btn-primary" id="runEvalBtn" onclick="app.runEvaluation()">
+                    <span class="btn-text">Run Evaluation</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 6: Evaluation -->
+        <section class="step-panel" id="panel-evaluation">
+            <div class="panel-header">
+                <h1>Quality Evaluation</h1>
+                <p>Multi-point quality assessment and constraint compliance report.</p>
+            </div>
+            <div class="eval-dashboard" id="evalDashboard"></div>
+            <div class="step-actions">
+                <button class="btn btn-outline" onclick="app.goToStep('storyboards')">Back</button>
+                <button class="btn btn-secondary" onclick="app.showAdversarialTest()">Run Guardrail Test</button>
+            </div>
+        </section>
+
+        <!-- Refinement Panel (slide-in) -->
+        <div class="refinement-panel" id="refinementPanel">
+            <div class="refinement-header">
+                <h3>Refine Content</h3>
+                <button class="close-btn" onclick="app.closeRefinement()">&times;</button>
+            </div>
+            <div class="refinement-body">
+                <p id="refinementContext"></p>
+                <textarea id="refinementInput" rows="3" placeholder="Describe the changes you want..."></textarea>
+                <button class="btn btn-primary" onclick="app.submitRefinement()">Apply Refinement</button>
+            </div>
+        </div>
+
+        <!-- Adversarial Test Modal -->
+        <div class="modal-overlay" id="adversarialModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>A/B Policy Compliance — Guardrail Test</h3>
+                    <button class="close-btn" onclick="app.closeAdversarial()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Test the constraint layer by feeding intentionally prohibited content.</p>
+                    <div class="form-group">
+                        <label>Hook (potentially prohibited)</label>
+                        <input type="text" id="advHook" placeholder="e.g. Our product cures all diseases">
+                    </div>
+                    <div class="form-group">
+                        <label>Value Proposition</label>
+                        <input type="text" id="advValue" placeholder="e.g. Guaranteed 500% returns risk-free">
+                    </div>
+                    <div class="form-group">
+                        <label>CTA</label>
+                        <input type="text" id="advCta" placeholder="e.g. Buy now for guaranteed results">
+                    </div>
+                    <button class="btn btn-primary" onclick="app.runAdversarialTest()">Run Test</button>
+                    <div id="adversarialResult" class="test-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast" id="toast"></div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
