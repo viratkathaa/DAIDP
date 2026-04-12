@@ -16,10 +16,12 @@ from app.context_engine import (
 
 
 def _call_gemini(prompt: str) -> str:
-    import google.generativeai as genai
-    genai.configure(api_key=config.GEMINI_API_KEY)
-    model = genai.GenerativeModel(config.GEMINI_MODEL)
-    response = model.generate_content(prompt)
+    from google import genai
+    client = genai.Client(api_key=config.GEMINI_API_KEY)
+    response = client.models.generate_content(
+        model=config.GEMINI_MODEL,
+        contents=prompt,
+    )
     return response.text
 
 
@@ -206,52 +208,68 @@ def generate_personas(brief: CampaignBrief) -> list[Persona]:
     if config.DEMO_MODE:
         return _demo_personas(brief)
 
-    prompt = build_persona_prompt(brief)
-    raw = _call_model(prompt)
-    data = _parse_json(raw)
-    return [Persona(**p) for p in data]
+    try:
+        prompt = build_persona_prompt(brief)
+        raw = _call_model(prompt)
+        data = _parse_json(raw)
+        return [Persona(**p) for p in data]
+    except Exception as e:
+        print(f"[WARN] AI call failed, falling back to demo data: {e}")
+        return _demo_personas(brief)
 
 
 def generate_angles(brief: CampaignBrief, personas: list[Persona]) -> list[CampaignAngle]:
     if config.DEMO_MODE:
         return _demo_angles(brief)
 
-    personas_text = json.dumps([p.model_dump() for p in personas], indent=2)
-    prompt = build_angles_prompt(brief, personas_text)
-    raw = _call_model(prompt)
-    data = _parse_json(raw)
-    return [CampaignAngle(**a) for a in data]
+    try:
+        personas_text = json.dumps([p.model_dump() for p in personas], indent=2)
+        prompt = build_angles_prompt(brief, personas_text)
+        raw = _call_model(prompt)
+        data = _parse_json(raw)
+        return [CampaignAngle(**a) for a in data]
+    except Exception as e:
+        print(f"[WARN] AI call failed, falling back to demo data: {e}")
+        return _demo_angles(brief)
 
 
 def generate_scripts(brief: CampaignBrief, angles: list[CampaignAngle], personas: list[Persona]) -> list[AdScript]:
     if config.DEMO_MODE:
         return _demo_scripts(brief)
 
-    scripts = []
-    for angle in angles[:2]:  # Generate 2 scripts
-        persona = next((p for p in personas if p.name == angle.target_persona), personas[0])
-        prompt = build_script_prompt(
-            brief,
-            json.dumps(angle.model_dump(), indent=2),
-            json.dumps(persona.model_dump(), indent=2)
-        )
-        raw = _call_model(prompt)
-        data = _parse_json(raw)
-        scripts.append(AdScript(**data))
-    return scripts
+    try:
+        scripts = []
+        for angle in angles[:2]:  # Generate 2 scripts
+            persona = next((p for p in personas if p.name == angle.target_persona), personas[0])
+            prompt = build_script_prompt(
+                brief,
+                json.dumps(angle.model_dump(), indent=2),
+                json.dumps(persona.model_dump(), indent=2)
+            )
+            raw = _call_model(prompt)
+            data = _parse_json(raw)
+            scripts.append(AdScript(**data))
+        return scripts
+    except Exception as e:
+        print(f"[WARN] AI call failed, falling back to demo data: {e}")
+        return _demo_scripts(brief)
 
 
 def generate_storyboards(brief: CampaignBrief, scripts: list[AdScript]) -> list[Storyboard]:
     if config.DEMO_MODE:
         return _demo_storyboards(brief, scripts)
 
-    storyboards = []
-    for script in scripts:
-        prompt = build_storyboard_prompt(brief, json.dumps(script.model_dump(), indent=2))
-        raw = _call_model(prompt)
-        data = _parse_json(raw)
-        storyboards.append(Storyboard(**data))
-    return storyboards
+    try:
+        storyboards = []
+        for script in scripts:
+            prompt = build_storyboard_prompt(brief, json.dumps(script.model_dump(), indent=2))
+            raw = _call_model(prompt)
+            data = _parse_json(raw)
+            storyboards.append(Storyboard(**data))
+        return storyboards
+    except Exception as e:
+        print(f"[WARN] AI call failed, falling back to demo data: {e}")
+        return _demo_storyboards(brief, scripts)
 
 
 def refine_content(brief: CampaignBrief, stage: str, content: str, instruction: str) -> str:
