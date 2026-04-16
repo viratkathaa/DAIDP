@@ -1,0 +1,88 @@
+{
+  "personas": [
+    {
+      "name": "Alex",
+      "age_range": "27-35",
+      "occupation": "Management Consultant",
+      "interests": [
+        "Biohacking",
+        "High-end tech gadgets",
+        "Efficiency frameworks",
+        "Indoor cycling",
+        "Business networking"
+      ],
+      "pain_points": [
+        "Mid-afternoon energy slumps during back-to-back meetings",
+        "Inconsistent quality of office-provided coffee",
+        "Lack of time to wait in line at premium cafes",
+        "Energy drinks that look unprofessional in a corporate setting"
+      ],
+      "media_habits": [
+        "Follows productivity influencers on Instagram",
+        "Listens to business and tech podcasts during commutes",
+        "Engages with high-performance lifestyle Reels"
+      ],
+      "buying_motivation": "Needs a high-performance caffeine source that maintains a professional aesthetic and provides a reliable, sharp mental edge.",
+      "persona_summary": "Alex is a high-achieving corporate professional who values time-efficiency and premium quality above all else. They need a sophisticated energy solution that fits into a fast-paced boardroom environment without the sugar-heavy stigma of traditional energy drinks."
+    },
+    {
+      "name": "Maya",
+      "age_range": "23-30",
+      "occupation": "Freelance Creative Director",
+      "interests": [
+        "Minimalist interior design",
+        "Digital illustration",
+        "Streetwear culture",
+        "Underground electronic music",
+        "Content creation tools"
+      ],
+      "pain_points": [
+        "Creative burnout during late-night editing sessions",
+        "Traditional energy drinks clashing with their curated aesthetic",
+        "The crash associated with high-sugar beverages",
+        "Needing portable fuel for on-location shoots"
+      ],
+      "media_habits": [
+        "Active on Instagram Stories sharing 'Day in the Life' content",
+        "Consumes short-form video tutorials on design",
+        "Uses Pinterest and Instagram for visual inspiration"
+      ],
+      "buying_motivation": "Driven by the 'cool factor' and brand aesthetic; wants a product that looks as good as it tastes and fuels their creative flow.",
+      "persona_summary": "Maya is a trend-conscious creator who treats her workspace and consumption habits as an extension of her personal brand. She seeks a premium, ready-to-drink coffee that provides the intensity of an energy drink with the sophisticated flavor profile of a specialty cold brew."
+    },
+    {
+      "name": "Jordan",
+      "age_range": "25-34",
+      "occupation": "Real Estate Agent / Side-Hustler",
+      "interests": [
+        "Personal finance",
+        "Urban exploration",
+        "Fitness and weightlifting",
+        "Luxury car culture",
+        "Startup news"
+      ],
+      "pain_points": [
+        "Spending 4+ hours a day in a car between properties",
+        "Needing to stay 'on' and charismatic for clients while exhausted",
+        "Lukewarm or stale gas station coffee",
+        "Difficulty finding clean caffeine options on the go"
+      ],
+      "media_habits": [
+        "Scrolls Instagram Reels for motivational and entrepreneurial content",
+        "Uses Spotify for high-energy focus playlists",
+        "Checks social media for real-time market updates"
+      ],
+      "buying_motivation": "Prioritizes premium convenience and a 'grab-and-go' solution that keeps them sharp for high-stakes client interactions.",
+      "persona_summary": "Jordan is an ambitious, mobile professional who is always on the move and views time as money. They need a reliable, cold, and potent caffeine kick that matches their 'always-on' lifestyle and desire for premium convenience."
+    }
+  ],
+  "constraints": {
+    "personas": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 9,
+      "passed_rules": 9
+    }
+  },
+  "time_taken": 2.0
+}

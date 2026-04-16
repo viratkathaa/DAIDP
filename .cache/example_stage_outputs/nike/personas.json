@@ -1,0 +1,86 @@
+{
+  "personas": [
+    {
+      "name": "Priya",
+      "age_range": "25-32",
+      "occupation": "Digital Marketing Manager",
+      "interests": [
+        "social media trends",
+        "productivity tools",
+        "online courses",
+        "fitness"
+      ],
+      "pain_points": [
+        "limited ad budget",
+        "time-consuming creative process",
+        "inconsistent brand output",
+        "low engagement rates"
+      ],
+      "media_habits": [
+        "Instagram daily",
+        "YouTube tutorials",
+        "LinkedIn networking",
+        "marketing podcasts"
+      ],
+      "buying_motivation": "Wants to scale content output without hiring a full creative team",
+      "persona_summary": "Priya is a growth-focused marketer at a mid-stage startup. She needs to produce high volumes of ad creatives for Nike but is constrained by budget and team size. She values tools that automate repetitive creative tasks."
+    },
+    {
+      "name": "Arjun",
+      "age_range": "30-40",
+      "occupation": "Startup Founder / CEO",
+      "interests": [
+        "business strategy",
+        "technology",
+        "venture capital",
+        "public speaking"
+      ],
+      "pain_points": [
+        "expensive agency retainers",
+        "slow turnaround on ad iterations",
+        "difficulty communicating vision to designers"
+      ],
+      "media_habits": [
+        "Twitter/X for news",
+        "YouTube for product demos",
+        "TechCrunch reader",
+        "podcast listener"
+      ],
+      "buying_motivation": "Needs professional-grade ads quickly to test product-market fit across channels",
+      "persona_summary": "Arjun runs an early-stage startup and needs to rapidly experiment with different ad formats for Pegasus Turbo Next. He doesn't have a design team and wants an AI-powered solution to go from idea to ad in minutes."
+    },
+    {
+      "name": "Sneha",
+      "age_range": "20-26",
+      "occupation": "Freelance Content Creator",
+      "interests": [
+        "video editing",
+        "graphic design",
+        "trending content",
+        "brand collaborations"
+      ],
+      "pain_points": [
+        "client revisions take too long",
+        "maintaining consistency across campaigns",
+        "limited access to premium tools"
+      ],
+      "media_habits": [
+        "TikTok power user",
+        "Instagram Reels creator",
+        "design tool daily user",
+        "YouTube Shorts"
+      ],
+      "buying_motivation": "Wants to deliver faster turnaround to clients with polished, professional results",
+      "persona_summary": "Sneha creates social media content for multiple clients. She would use Nike's platform to rapidly prototype ad concepts and deliver storyboards to clients for approval."
+    }
+  ],
+  "constraints": {
+    "personas": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 9,
+      "passed_rules": 9
+    }
+  },
+  "time_taken": 2.0
+}

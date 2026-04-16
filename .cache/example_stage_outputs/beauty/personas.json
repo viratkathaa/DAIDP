@@ -1,0 +1,91 @@
+{
+  "personas": [
+    {
+      "name": "Clara",
+      "age_range": "30-45",
+      "occupation": "Corporate Executive",
+      "interests": [
+        "Luxury travel",
+        "Boutique fitness",
+        "Interior design",
+        "Professional networking",
+        "Clean beauty"
+      ],
+      "pain_points": [
+        "Skin looking fatigued due to high-stress work weeks",
+        "Lack of time for complex multi-step beauty routines",
+        "Need for makeup that transitions seamlessly from the boardroom to evening events",
+        "Frustrated by products that feel heavy or cakey under office lighting"
+      ],
+      "media_habits": [
+        "Follows premium lifestyle and business influencers on LinkedIn",
+        "Consumes 'Day in the Life' Reels of high-achieving women",
+        "Subscribes to digital editions of Vogue and Harper\u2019s Bazaar",
+        "Watches high-production value morning routine content"
+      ],
+      "buying_motivation": "The desire for a polished, professional aesthetic and products that provide an immediate confidence boost through high-performance ingredients.",
+      "persona_summary": "Clara is a high-achieving professional who views her beauty routine as a vital part of her professional armor. She values efficiency and prestige, seeking out luxury products that make her look rested and radiant despite her demanding schedule."
+    },
+    {
+      "name": "Elena",
+      "age_range": "25-34",
+      "occupation": "Creative Freelancer",
+      "interests": [
+        "Slow living",
+        "Minimalist fashion",
+        "Skincare science",
+        "Digital photography",
+        "Wellness retreats"
+      ],
+      "pain_points": [
+        "Dull skin caused by long hours in front of digital screens",
+        "Preference for 'no-makeup' makeup that still looks elevated",
+        "Desire for a sensory, calming ritual to start and end her day",
+        "Difficulty finding products that photograph well for social media without filters"
+      ],
+      "media_habits": [
+        "Active on aesthetic Pinterest boards and Instagram saved folders",
+        "Engages with 'Get Ready With Me' (GRWM) Reels emphasizing skin prep",
+        "Listens to wellness and self-improvement podcasts",
+        "Follows niche, high-end skincare aesthetic accounts"
+      ],
+      "buying_motivation": "Emotional resonance and the sensory experience of the product; she wants her skincare to feel like a meditative, luxurious ritual.",
+      "persona_summary": "Elena is a visually-driven creative who prioritizes the 'glow-from-within' look and the emotional benefit of her beauty routine. She is drawn to Luma Skin for its soft neutrals and gold accents, seeing the collection as an extension of her curated, minimalist lifestyle."
+    },
+    {
+      "name": "Sophia",
+      "age_range": "35-55",
+      "occupation": "Event Planner & Socialite",
+      "interests": [
+        "Fine dining",
+        "Gala hosting",
+        "High-end fashion",
+        "Contemporary art",
+        "Aesthetic medicine"
+      ],
+      "pain_points": [
+        "Maintaining a youthful, luminous glow for social appearances",
+        "Loss of natural skin radiance due to environmental factors",
+        "Finding premium products that feel exclusive and high-status",
+        "Need for products that enhance her features for high-definition photography"
+      ],
+      "media_habits": [
+        "Views Instagram Stories of luxury fashion and jewelry brands",
+        "Follows celebrity makeup artists and luxury dermatologists",
+        "Engages with high-budget travel and event content",
+        "Regularly checks 'What\u2019s New' sections on luxury retail platforms"
+      ],
+      "buying_motivation": "Exclusivity and social validation; she buys products that signal status and ensure she looks flawless at every public engagement.",
+      "persona_summary": "Sophia is a sophisticated socialite who is always in the public eye and demands the best in skincare and makeup to maintain her image. She seeks out Luma Skin for its premium positioning and its ability to provide a polished, radiant finish that complements her high-fashion wardrobe."
+    }
+  ],
+  "constraints": {
+    "personas": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 9,
+      "passed_rules": 9
+    }
+  },
+  "time_taken": 2.0
+}

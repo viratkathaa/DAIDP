@@ -1,0 +1,121 @@
+{
+  "storyboards": [
+    {
+      "script_name": "Speed to Market",
+      "format": "9:16 vertical (Instagram Reels)",
+      "total_duration": 30,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "duration_seconds": 5,
+          "visual_description": "Close-up of a marketer's frustrated face staring at a blank design canvas, clock ticking in background",
+          "narration": "Creating ads shouldn't take forever.",
+          "on_screen_text": "We've all been here.",
+          "camera_direction": "Slow zoom into screen",
+          "image_prompt": "Photorealistic close-up of a young professional woman looking frustrated at a computer screen showing a blank design canvas, modern office, warm lighting"
+        },
+        {
+          "scene_number": 2,
+          "duration_seconds": 8,
+          "visual_description": "Screen recording style: user types a brief into Nike's clean UI, AI generates personas and hooks instantly",
+          "narration": "With Nike, just describe your product and watch the magic happen.",
+          "on_screen_text": "AI-Powered Campaign Generation",
+          "camera_direction": "Screen capture with subtle zoom",
+          "image_prompt": "Modern web application interface showing AI generating marketing content, clean UI with cards appearing, purple and blue color scheme, product name Nike"
+        },
+        {
+          "scene_number": 3,
+          "duration_seconds": 10,
+          "visual_description": "Split screen showing 3 different ad variants being generated simultaneously, progress bars filling up",
+          "narration": "Personas, hooks, scripts, and storyboards \u2014 all generated in seconds.",
+          "on_screen_text": "3 Complete Ad Variants",
+          "camera_direction": "Dynamic split screen with animations",
+          "image_prompt": "Split screen showing three different advertisement variants being created simultaneously, modern flat design, vibrant colors"
+        },
+        {
+          "scene_number": 4,
+          "duration_seconds": 7,
+          "visual_description": "Happy marketer presenting results on a big screen to impressed colleagues, Nike logo visible",
+          "narration": "From brief to campaign-ready in under 5 minutes. That's Nike.",
+          "on_screen_text": "Try Nike Free Today",
+          "camera_direction": "Wide shot pulling back to reveal team, end on logo",
+          "image_prompt": "Professional team in modern office looking impressed at a large screen showing advertisement results, Nike logo on screen, celebratory atmosphere"
+        }
+      ],
+      "music_mood": "Upbeat electronic with building energy, subtle bass drops at transitions",
+      "color_palette": [
+        "#6366f1",
+        "#8b5cf6",
+        "#06b6d4",
+        "#f59e0b",
+        "#1e293b"
+      ],
+      "typography_style": "Modern sans-serif (Inter/Poppins), bold headlines, light body text"
+    },
+    {
+      "script_name": "Founder's Toolkit",
+      "format": "9:16 vertical (Instagram Reels)",
+      "total_duration": 30,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "duration_seconds": 5,
+          "visual_description": "Startup founder working late, surrounded by sticky notes and rejected ad mockups",
+          "narration": "Building a startup is hard enough. Making ads shouldn't be.",
+          "on_screen_text": "$10,000+ for an agency?",
+          "camera_direction": "Handheld, intimate close-up",
+          "image_prompt": "Young entrepreneur working late at night in a startup office, surrounded by sticky notes and printed ad mockups, laptop glowing, moody lighting"
+        },
+        {
+          "scene_number": 2,
+          "duration_seconds": 8,
+          "visual_description": "Founder opens Nike, types product description, AI generates complete campaign strategy",
+          "narration": "Nike turns your product vision into a complete ad campaign \u2014 powered by AI.",
+          "on_screen_text": "AI Does The Heavy Lifting",
+          "camera_direction": "Over-the-shoulder screen capture",
+          "image_prompt": "Over-the-shoulder view of a founder using Nike platform on laptop, AI generating campaign content on screen, modern minimalist workspace"
+        },
+        {
+          "scene_number": 3,
+          "duration_seconds": 10,
+          "visual_description": "Montage of generated ads appearing across different platforms \u2014 Instagram, YouTube, Facebook",
+          "narration": "Professional ads for every platform. Multiple variants. Zero design skills needed.",
+          "on_screen_text": "Every Platform. Every Format.",
+          "camera_direction": "Quick cuts between platforms",
+          "image_prompt": "Montage showing advertisements displayed across Instagram phone mockup, YouTube player, and Facebook feed, professional quality, diverse ad formats"
+        },
+        {
+          "scene_number": 4,
+          "duration_seconds": 7,
+          "visual_description": "Confident founder at a pitch meeting, showing ad campaign results, Nike logo reveal",
+          "narration": "Launch faster. Spend smarter. Win bigger. Nike.",
+          "on_screen_text": "Launch Your First Campaign",
+          "camera_direction": "Cinematic wide shot, logo fade-in",
+          "image_prompt": "Confident startup founder presenting impressive ad campaign metrics at a board meeting, modern glass conference room, Nike logo on presentation screen"
+        }
+      ],
+      "music_mood": "Upbeat electronic with building energy, subtle bass drops at transitions",
+      "color_palette": [
+        "#6366f1",
+        "#8b5cf6",
+        "#06b6d4",
+        "#f59e0b",
+        "#1e293b"
+      ],
+      "typography_style": "Modern sans-serif (Inter/Poppins), bold headlines, light body text"
+    }
+  ],
+  "selected_script_indices": [
+    0,
+    1
+  ],
+  "constraints": {
+    "storyboards": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 4,
+      "passed_rules": 4
+    }
+  },
+  "time_taken": 2.0
+}

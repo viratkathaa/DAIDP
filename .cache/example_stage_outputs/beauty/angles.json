@@ -1,0 +1,37 @@
+{
+  "angles": [
+    {
+      "angle_name": "The Executive Radiance",
+      "hook": "The boardroom lights are harsh. Your glow shouldn't be.",
+      "emotional_trigger": "Professional Confidence",
+      "value_proposition": "High-performance luminosity that transitions seamlessly from executive meetings to evening events without looking heavy.",
+      "target_persona": "Clara",
+      "cta": "Shop Radiant Ritual"
+    },
+    {
+      "angle_name": "The Meditative Glow",
+      "hook": "In a world of digital noise, find your light.",
+      "emotional_trigger": "Sensory Well-being",
+      "value_proposition": "A skin-first, sensory ritual that transforms your morning routine into a mindful, golden-hour experience for a filter-free finish.",
+      "target_persona": "Elena",
+      "cta": "Elevate Your Routine"
+    },
+    {
+      "angle_name": "The Signature Luster",
+      "hook": "Some people walk into a room. You illuminate it.",
+      "emotional_trigger": "Prestige",
+      "value_proposition": "An exclusive, high-definition finish that ensures a flawless, radiant presence at every social engagement.",
+      "target_persona": "Sophia",
+      "cta": "Secure the Collection"
+    }
+  ],
+  "constraints": {
+    "angles": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 15,
+      "passed_rules": 15
+    }
+  },
+  "time_taken": 2.0
+}

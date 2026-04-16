@@ -1,0 +1,61 @@
+{
+  "evaluation": {
+    "brand_alignment": 6.5,
+    "message_clarity": 8.5,
+    "visual_coherence": 10.0,
+    "cta_effectiveness": 9.9,
+    "overall_score": 8.6,
+    "feedback": [
+      "Brand name consistently referenced across scripts",
+      "Few brand guideline keywords reflected in content",
+      "Storyboard 'The Executive Upgrade' has a comprehensive color palette",
+      "'The Executive Upgrade' has a clear CTA: 'Shop Cold Charge'",
+      "'The Creator's Palette' has a clear CTA: 'Get the Brew'",
+      "'The Executive Upgrade' specifies typography style for consistency",
+      "'The Executive Upgrade' includes music direction",
+      "'The Executive Upgrade' has complete camera direction coverage",
+      "'The Executive Upgrade' has detailed image prompts for all scenes",
+      "'The Creator's Palette' specifies typography style for consistency",
+      "'The Creator's Palette' includes music direction",
+      "'The Creator's Palette' has complete camera direction coverage",
+      "'The Creator's Palette' has detailed image prompts for all scenes",
+      "'The Executive Upgrade' CTA uses strong action verb",
+      "'The Creator's Palette' CTA uses strong action verb"
+    ]
+  },
+  "constraints": {
+    "personas": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 9,
+      "passed_rules": 9
+    },
+    "angles": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 15,
+      "passed_rules": 15
+    },
+    "scripts": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 56,
+      "passed_rules": 56
+    },
+    "storyboards": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 4,
+      "passed_rules": 4
+    }
+  },
+  "metrics": {
+    "personas_time": 2.0,
+    "angles_time": 2.0,
+    "scripts_time": 2.0,
+    "storyboards_time": 2.0,
+    "evaluation_time": 2.0,
+    "total_time": 10.0
+  },
+  "time_taken": 2.0
+}

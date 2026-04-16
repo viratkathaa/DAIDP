@@ -1,0 +1,138 @@
+{
+  "scripts": [
+    {
+      "concept_name": "The Executive Radiance",
+      "target_persona": "Clara",
+      "angle": "The Executive Radiance",
+      "tone": "Sophisticated, serene, and authoritative",
+      "duration_seconds": 58,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "duration_seconds": 6,
+          "visual_description": "Close-up of Clara's face under cold, flickering office fluorescent lights. She looks tired but poised. A warm, golden light suddenly sweeps across her face, smoothing the shadows.",
+          "narration": "The boardroom lights are harsh. Your glow shouldn't be.",
+          "on_screen_text": "Command the Light",
+          "camera_direction": "Slow zoom into her eyes, transitioning from cool-toned lighting to a warm, studio-grade glow.",
+          "image_prompt": "Cinematic 9:16 shot of a 35-year-old corporate woman in a minimalist high-end office, harsh overhead lighting transitioning into a soft, ethereal golden hour glow on her skin, soft neutral background, luxury aesthetic."
+        },
+        {
+          "scene_number": 2,
+          "duration_seconds": 12,
+          "visual_description": "A rapid but graceful montage of the Radiant Ritual Collection on a white marble vanity with gold accents. Clara applies the serum-infused foundation and a touch of highlighter with precision.",
+          "narration": "Introducing Luma Skin. A high-performance ritual designed for the woman who has no time for a ten-step routine, but demands perfection.",
+          "on_screen_text": "The 5-Minute Executive Ritual",
+          "camera_direction": "Macro shots of the product texture\u2014swirling cream with gold flecks. Quick cuts following the movement of her hands.",
+          "image_prompt": "Extreme close-up of a premium skincare bottle with gold accents on marble, liquid silk texture being pumped, soft focus, high-end photography, warm lighting."
+        },
+        {
+          "scene_number": 3,
+          "duration_seconds": 12,
+          "visual_description": "Clara stands at the head of a glass conference table, leading a presentation. She looks vibrant and rested. The light from the window catches the high points of her face.",
+          "narration": "Weightless luminosity that stands up to 14-hour days. No caking, no fading\u2014just professional confidence.",
+          "on_screen_text": "Boardroom Ready. Evening Approved.",
+          "camera_direction": "Tracking shot moving slowly around the table, focusing on her radiant profile while she speaks.",
+          "image_prompt": "Professional woman in a beige tailored suit standing in a sunlit modern boardroom, radiant skin, looking confident, soft neutral color palette, luxury office design."
+        },
+        {
+          "scene_number": 4,
+          "duration_seconds": 10,
+          "visual_description": "Transition to evening. Clara is in the back of a luxury car, checking her reflection in a compact. Her skin still looks as fresh as it did in the morning.",
+          "narration": "From the final meeting to the opening gala. Your skin stays as polished as your reputation.",
+          "on_screen_text": "Seamless Transition",
+          "camera_direction": "Medium shot from inside the car looking at her reflection in a gold-framed compact mirror.",
+          "image_prompt": "Interior of a luxury sedan at dusk, city lights blurring in the background, a woman looking into a gold makeup compact, skin looking dewy and luminous, 9:16 vertical."
+        },
+        {
+          "scene_number": 5,
+          "duration_seconds": 10,
+          "visual_description": "Clara walking into a sophisticated evening event, greeted by peers. She exudes an effortless, 'lit-from-within' radiance.",
+          "narration": "Because for you, radiance isn't just a look. It's your armor.",
+          "on_screen_text": "Elevate Your Ritual",
+          "camera_direction": "Low angle, slow-motion walking shot as she enters a room with warm, ambient lighting.",
+          "image_prompt": "Elegant woman entering a luxury lounge, soft gold lighting, dressed in high-end evening wear, radiant complexion, cinematic atmosphere, 9:16."
+        },
+        {
+          "scene_number": 6,
+          "duration_seconds": 8,
+          "visual_description": "The full Radiant Ritual Collection arranged elegantly. The Luma Skin logo fades in at the center in gold foil lettering.",
+          "narration": "Luma Skin. Shop the Radiant Ritual Collection.",
+          "on_screen_text": "Shop Radiant Ritual\nlumaskin.com",
+          "camera_direction": "Top-down flat lay shot with a slow pull-away to reveal the full product line.",
+          "image_prompt": "Product photography flat lay of a skincare and makeup collection, gold and cream packaging, soft neutral background, professional lighting, luxury brand aesthetic."
+        }
+      ],
+      "cta_text": "Shop Radiant Ritual",
+      "disclaimer": "Individual results may vary. Appearance of skin luminosity is temporary and achieved through cosmetic application."
+    },
+    {
+      "concept_name": "The Ritual of Light",
+      "target_persona": "Elena",
+      "angle": "The Meditative Glow",
+      "tone": "Serene, Luxurious, and Mindful",
+      "duration_seconds": 55,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "duration_seconds": 8,
+          "visual_description": "A close-up of Elena\u2019s face, partially illuminated by the blue light of a smartphone in a dimly lit, modern apartment. She sighs softly, puts the phone down, and looks toward a window where the first rays of golden morning light are breaking through.",
+          "narration": "In a world of digital noise, find your light. Reclaim your morning.",
+          "on_screen_text": "Escape the noise.",
+          "camera_direction": "Slow zoom-in on Elena\u2019s eyes as the lighting shifts from cool blue to warm golden hour.",
+          "image_prompt": "Cinematic 9:16 shot of a 30-year-old woman with minimalist aesthetic in a sun-drenched high-end apartment, soft morning light hitting her face, soft neutral color palette, hyper-realistic, 8k."
+        },
+        {
+          "scene_number": 2,
+          "duration_seconds": 12,
+          "visual_description": "Extreme macro shots of the Radiant Ritual Collection. A gold-capped glass bottle being unscrewed; a drop of shimmering, translucent serum falling in slow motion; a silk-textured cream being swiped across a piece of white linen.",
+          "narration": "Experience skincare as a sensory ritual. Feel the weight of the glass, the silk of the cream, the warmth of the glow.",
+          "on_screen_text": "A Sensory Ritual.",
+          "camera_direction": "Macro lens, shallow depth of field. Fast cuts synchronized with a soft, rhythmic heartbeat sound effect.",
+          "image_prompt": "Extreme close-up of a premium skincare bottle with gold accents and a glass dropper, a single drop of glowing liquid, soft focus background, luxury aesthetic, beige and gold tones."
+        },
+        {
+          "scene_number": 3,
+          "duration_seconds": 15,
+          "visual_description": "Elena is at her vanity, which is adorned with a simple ceramic vase and gold jewelry. She applies the Luma Skin serum with slow, meditative upward strokes. She closes her eyes, inhaling the subtle scent, fully present in the moment.",
+          "narration": "More than a routine, it\u2019s a moment of mindfulness. A skin-first approach for a finish that doesn't need a filter.",
+          "on_screen_text": "Filter-free confidence.",
+          "camera_direction": "Medium shot, side profile. The camera moves in a slow, circular motion around her as she applies the product.",
+          "image_prompt": "A beautiful woman performing a skincare ritual at a minimalist vanity, wearing a silk robe, soft sunlight, golden hour glow, serene expression, high-end photography style."
+        },
+        {
+          "scene_number": 4,
+          "duration_seconds": 10,
+          "visual_description": "Elena is now dressed in a cream cashmere sweater, standing by a window. Her skin looks luminous and dewy\u2014not oily, but healthy. She looks at her reflection in a hand-held gold mirror and smiles with quiet confidence.",
+          "narration": "Elevated beauty for the conscious creative. Your light, amplified.",
+          "on_screen_text": "Radiance from within.",
+          "camera_direction": "Close-up of Elena's face, catching the light as she turns slightly. Soft focus on the background to emphasize her skin texture.",
+          "image_prompt": "Portrait of a woman with glowing, radiant skin, no-makeup makeup look, wearing a cream sweater, standing in a sunlit room, aesthetic and polished, 9:16 vertical."
+        },
+        {
+          "scene_number": 5,
+          "duration_seconds": 10,
+          "visual_description": "The full Radiant Ritual Collection is displayed on a marble surface, surrounded by soft shadows and a single stalk of dried pampas grass. The Luma Skin logo appears in gold leaf font.",
+          "narration": "The Radiant Ritual Collection. Elevate your daily routine into a masterpiece.",
+          "on_screen_text": "Luma Skin\nThe Radiant Ritual Collection",
+          "camera_direction": "Top-down flat lay shot transitioning into a low-angle hero shot of the products.",
+          "image_prompt": "Luxury skincare collection display, glass bottles with gold caps, marble and linen textures, soft shadows, premium branding, gold accents, elegant composition."
+        }
+      ],
+      "cta_text": "Elevate Your Routine",
+      "disclaimer": "Individual results may vary. Products are designed to enhance skin's natural radiance."
+    }
+  ],
+  "selected_angle_indices": [
+    0,
+    1
+  ],
+  "constraints": {
+    "scripts": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 61,
+      "passed_rules": 61
+    }
+  },
+  "time_taken": 2.0
+}

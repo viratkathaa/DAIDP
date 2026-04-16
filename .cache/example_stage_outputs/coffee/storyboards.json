@@ -1,0 +1,139 @@
+{
+  "storyboards": [
+    {
+      "script_name": "The Executive Upgrade",
+      "format": "9:16 vertical (Instagram Reels)",
+      "total_duration": 45,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "duration_seconds": 5,
+          "visual_description": "Close-up of a soggy, stained paper coffee cup sitting on a high-end glass desk next to a luxury watch. The lighting is dim and uninspired. A hand reaches for it but hesitates.",
+          "narration": "Still settling for the standard paper cup? Your performance deserves a premium aesthetic.",
+          "on_screen_text": "DITCH THE PAPER CUP",
+          "camera_direction": "Slow macro zoom on the coffee stain, followed by a quick whip-pan to the right.",
+          "image_prompt": "Cinematic close-up, 9:16, a soggy paper coffee cup with brown stains on a glass desk, blurred luxury watch in background, moody office lighting, silver and espresso color palette."
+        },
+        {
+          "scene_number": 2,
+          "duration_seconds": 8,
+          "visual_description": "A sleek, silver and espresso Volt Brew can slides into the frame, replacing the paper cup. Condensation glistens on the cold metal. A hand in a tailored suit sleeve picks it up.",
+          "narration": "Meet Cold Charge. The high-intensity energy of a professional-grade beverage, wrapped in a boardroom-ready design.",
+          "on_screen_text": "THE EXECUTIVE UPGRADE",
+          "camera_direction": "Low angle, tracking the can as it slides into place. Sharp, high-speed focus.",
+          "image_prompt": "9:16, vertical shot, a premium silver and espresso coffee can with water droplets, held by a man in a navy tailored suit, modern corporate office background, sharp focus, high-end aesthetic."
+        },
+        {
+          "scene_number": 3,
+          "duration_seconds": 10,
+          "visual_description": "Alex walks confidently through a minimalist, glass-walled corridor. He takes a sip and looks focused. Fast-cut shots of his high-end tech gadgets and a clean workspace.",
+          "narration": "No sugar-heavy stigma. No neon cans. Just clean energy for those who value efficiency and style.",
+          "on_screen_text": "CLEAN ENERGY. NO STIGMA.",
+          "camera_direction": "Dynamic follow-shot, walking with the subject at eye level. Fast rhythmic cuts.",
+          "image_prompt": "9:16, professional male consultant in early 30s walking through a futuristic minimalist office, holding a sleek silver can, natural light, high-performance atmosphere, 8k resolution."
+        },
+        {
+          "scene_number": 4,
+          "duration_seconds": 12,
+          "visual_description": "A top-down view of a boardroom table. A Volt Brew can sits perfectly aligned with a sleek laptop and a leather notebook. Alex is seen in the background, leading a presentation with confidence.",
+          "narration": "Designed for back-to-back meetings and high-stakes decision making. It\u2019s the sharp mental edge you need, without the wait.",
+          "on_screen_text": "BUILT FOR THE BOARDROOM",
+          "camera_direction": "Bird's eye view overhead shot, slowly rotating. Transition to a medium shot of the presentation.",
+          "image_prompt": "9:16, top-down view of a marble boardroom table, silver Volt Brew can next to a modern laptop and leather journal, blurred professional meeting in background, premium corporate style."
+        },
+        {
+          "scene_number": 5,
+          "duration_seconds": 10,
+          "visual_description": "Extreme close-up of the can tab clicking open (loud, crisp sound). The liquid pours into a glass with clear ice cubes in slow motion. The Volt Brew logo fades in over the silver can.",
+          "narration": "Upgrade your ritual. Experience the intensity of Cold Charge.",
+          "on_screen_text": "VOLT BREW: COLD CHARGE\nShop Now",
+          "camera_direction": "Extreme close-up macro photography. Slow motion liquid movement.",
+          "image_prompt": "9:16, macro shot of dark espresso coffee pouring over crystal clear ice, silver sparks of light, premium liquid texture, espresso and silver tones, high contrast."
+        }
+      ],
+      "music_mood": "Upbeat electronic with building energy, subtle bass drops at transitions",
+      "color_palette": [
+        "#6366f1",
+        "#8b5cf6",
+        "#06b6d4",
+        "#f59e0b",
+        "#1e293b"
+      ],
+      "typography_style": "Modern sans-serif (Inter/Poppins), bold headlines, light body text"
+    },
+    {
+      "script_name": "The Creator's Palette",
+      "format": "9:16 vertical (Instagram Reels)",
+      "total_duration": 25,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "duration_seconds": 4,
+          "visual_description": "A dimly lit, ultra-modern studio. Maya sits at a glass desk with a silver laptop and digital tablet. She looks at her screen, rubbing her temples. The room is bathed in cool silver and deep espresso shadows.",
+          "narration": "Your workspace is curated. Your aesthetic is intentional. But your energy?",
+          "on_screen_text": "Curation is everything.",
+          "camera_direction": "Slow push-in on Maya\u2019s face, transitioning to a top-down view of her desk.",
+          "image_prompt": "Cinematic 9:16 shot of a stylish 25-year-old female creator in a minimalist silver and dark wood studio, soft moody lighting, tech gadgets on a glass desk, espresso tones, high-end photography."
+        },
+        {
+          "scene_number": 2,
+          "duration_seconds": 4,
+          "visual_description": "Extreme close-up of a Volt Brew Cold Charge can. A drop of condensation rolls down the brushed silver surface. The lighting is sharp, highlighting the metallic texture.",
+          "narration": "Stop settling for neon cans that clash with your vibe.",
+          "on_screen_text": "Ditch the neon.",
+          "camera_direction": "Macro pan across the metallic logo of the Volt Brew can.",
+          "image_prompt": "Extreme macro photography of a brushed silver aluminum beverage can with 'VOLT BREW' text, cold condensation droplets, sharp studio lighting, silver and dark coffee color palette, 9:16."
+        },
+        {
+          "scene_number": 3,
+          "duration_seconds": 6,
+          "visual_description": "Fast-paced montage: Maya cracks the can open (audible 'pssh'). She takes a sip. Cut to her digital tablet showing vibrant, fast-moving illustrations. The editing is rhythmic, synced to an underground electronic beat.",
+          "narration": "Volt Brew Cold Charge. Energy drink intensity meets premium cold brew taste.",
+          "on_screen_text": "INTENSITY + TASTE",
+          "camera_direction": "Quick rhythmic cuts, matching the beat of the music.",
+          "image_prompt": "Fast motion blur of a hand opening a silver can, followed by a close-up of a digital drawing tablet with glowing art, silver and espresso color grading, 9:16."
+        },
+        {
+          "scene_number": 4,
+          "duration_seconds": 5,
+          "visual_description": "Slow motion shot of the dark, rich espresso liquid being poured over a single large clear ice cube in a designer glass. The silver can sits elegantly in the background.",
+          "narration": "Clean energy. No sugar crash. Just pure creative flow.",
+          "on_screen_text": "CLEAN ENERGY.\nNO CRASH.",
+          "camera_direction": "Static low-angle shot, slow motion 60fps.",
+          "image_prompt": "Slow motion pour of dark specialty cold brew coffee into a glass with a clear ice cube, minimalist aesthetic, silver accents, high-end commercial look, 9:16."
+        },
+        {
+          "scene_number": 5,
+          "duration_seconds": 6,
+          "visual_description": "Maya is back in her flow, working confidently. She reaches for the silver can without looking, it fits perfectly in her workspace. The frame fades to a final product shot on a silver pedestal.",
+          "narration": "Fuel the flow without breaking the visual. Volt Brew. Get the Brew.",
+          "on_screen_text": "VOLT BREW\nCOLD CHARGE\n[Get the Brew]",
+          "camera_direction": "Wide shot of Maya working, then a quick transition to a centered product packshot.",
+          "image_prompt": "A ready-to-drink silver coffee can standing on a reflective silver surface, dark espresso background, premium lighting, 9:16 vertical aspect ratio."
+        }
+      ],
+      "music_mood": "Upbeat electronic with building energy, subtle bass drops at transitions",
+      "color_palette": [
+        "#6366f1",
+        "#8b5cf6",
+        "#06b6d4",
+        "#f59e0b",
+        "#1e293b"
+      ],
+      "typography_style": "Modern sans-serif (Inter/Poppins), bold headlines, light body text"
+    }
+  ],
+  "selected_script_indices": [
+    0,
+    1
+  ],
+  "constraints": {
+    "storyboards": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 4,
+      "passed_rules": 4
+    }
+  },
+  "time_taken": 2.0
+}

@@ -1,0 +1,37 @@
+{
+  "angles": [
+    {
+      "angle_name": "The Efficiency Play",
+      "hook": "What if your next ad campaign took 5 minutes instead of 5 days?",
+      "emotional_trigger": "Relief / Time-saving",
+      "value_proposition": "Nike automates your entire ad creation pipeline \u2014 from strategy to finished video.",
+      "target_persona": "Priya",
+      "cta": "Try Nike Free Today"
+    },
+    {
+      "angle_name": "The Founder's Edge",
+      "hook": "Stop paying agencies $10K for ads you can make yourself.",
+      "emotional_trigger": "Empowerment / Cost-saving",
+      "value_proposition": "Nike gives founders agency-quality creatives at a fraction of the cost.",
+      "target_persona": "Arjun",
+      "cta": "Launch Your First Campaign"
+    },
+    {
+      "angle_name": "The Creator Accelerator",
+      "hook": "Your clients want 10 ad variants by tomorrow. Here's how.",
+      "emotional_trigger": "FOMO / Professional growth",
+      "value_proposition": "With Nike, create multiple ad variants in minutes and impress every client.",
+      "target_persona": "Sneha",
+      "cta": "Create Ads 10x Faster"
+    }
+  ],
+  "constraints": {
+    "angles": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 15,
+      "passed_rules": 15
+    }
+  },
+  "time_taken": 2.0
+}

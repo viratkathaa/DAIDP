@@ -23,7 +23,7 @@ Thumbs.db
 # Local development artifacts
 demo.mp4
 *.patch
-.cache/
+
 
 # Python specific caches
 .pytest_cache/

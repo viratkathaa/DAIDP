@@ -1,0 +1,63 @@
+{
+  "evaluation": {
+    "brand_alignment": 6.5,
+    "message_clarity": 8.5,
+    "visual_coherence": 10.0,
+    "cta_effectiveness": 10.0,
+    "overall_score": 8.6,
+    "feedback": [
+      "Brand name consistently referenced across scripts",
+      "Few brand guideline keywords reflected in content",
+      "Storyboard 'Speed to Market' has a comprehensive color palette",
+      "'Speed to Market' has a clear CTA: 'Try Nike Free Today \u2014 No credit card required'",
+      "'Founder's Toolkit' has a clear CTA: 'Launch Your First Campaign \u2014 Start Free'",
+      "'Speed to Market' specifies typography style for consistency",
+      "'Speed to Market' includes music direction",
+      "'Speed to Market' has complete camera direction coverage",
+      "'Speed to Market' has detailed image prompts for all scenes",
+      "'Founder's Toolkit' specifies typography style for consistency",
+      "'Founder's Toolkit' includes music direction",
+      "'Founder's Toolkit' has complete camera direction coverage",
+      "'Founder's Toolkit' has detailed image prompts for all scenes",
+      "'Speed to Market' CTA uses strong action verb",
+      "'Speed to Market' CTA creates urgency",
+      "'Founder's Toolkit' CTA uses strong action verb",
+      "'Founder's Toolkit' CTA creates urgency"
+    ]
+  },
+  "constraints": {
+    "personas": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 9,
+      "passed_rules": 9
+    },
+    "angles": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 15,
+      "passed_rules": 15
+    },
+    "scripts": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 46,
+      "passed_rules": 46
+    },
+    "storyboards": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 4,
+      "passed_rules": 4
+    }
+  },
+  "metrics": {
+    "personas_time": 2.0,
+    "angles_time": 2.0,
+    "scripts_time": 2.0,
+    "storyboards_time": 2.0,
+    "evaluation_time": 2.0,
+    "total_time": 10.0
+  },
+  "time_taken": 2.0
+}

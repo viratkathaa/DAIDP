@@ -1,0 +1,37 @@
+{
+  "angles": [
+    {
+      "angle_name": "The Executive Upgrade",
+      "hook": "Ditch the paper cup. Your performance deserves a premium aesthetic.",
+      "emotional_trigger": "Status",
+      "value_proposition": "A sophisticated, high-intensity caffeine source designed for the boardroom environment.",
+      "target_persona": "Alex",
+      "cta": "Shop Cold Charge"
+    },
+    {
+      "angle_name": "Aesthetic Intensity",
+      "hook": "Fuel your creative flow without breaking the visual vibe.",
+      "emotional_trigger": "Aspiration",
+      "value_proposition": "The strength of an energy drink blended with the minimalist look of a specialty cold brew.",
+      "target_persona": "Maya",
+      "cta": "Get the Brew"
+    },
+    {
+      "angle_name": "The High-Stakes Mobility",
+      "hook": "Between calls and clients, never settle for gas station coffee again.",
+      "emotional_trigger": "Relief",
+      "value_proposition": "Premium, ready-to-drink energy that keeps you sharp for every high-stakes interaction.",
+      "target_persona": "Jordan",
+      "cta": "Order Now"
+    }
+  ],
+  "constraints": {
+    "angles": {
+      "passed": true,
+      "violations": [],
+      "checked_rules": 15,
+      "passed_rules": 15
+    }
+  },
+  "time_taken": 2.0
+}
