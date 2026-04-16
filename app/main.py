@@ -3,9 +3,11 @@ Main FastAPI application entry point.
 Serves the API and static frontend files.
 """
 
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import router
 from app import config
@@ -29,7 +31,15 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def serve_frontend():
-    return FileResponse("static/index.html")
+    html = (
+        Path("static/index.html")
+        .read_text(encoding="utf-8")
+        .replace("__ASSET_VERSION__", config.ASSET_VERSION)
+    )
+    return HTMLResponse(
+        content=html,
+        headers={"Cache-Control": "no-store"},
+    )
 
 
 @app.get("/health")

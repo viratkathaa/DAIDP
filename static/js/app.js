@@ -550,9 +550,7 @@ function renderVideoPromptOptions(prompts) {
         `<option value="${index}">${escapeHtml(prompt.storyboard_name || `Prompt ${index + 1}`)}</option>`
     )).join('');
     $('#videoPromptSelect').innerHTML = options;
-    $('#videoEvalPromptSelect').innerHTML = options;
     renderSelectedVideoPrompt();
-    renderSelectedVideoEvalPrompt();
 }
 
 function renderSelectedVideoPrompt() {
@@ -586,42 +584,6 @@ function renderSelectedVideoPrompt() {
             <div>
                 <div class="scene-field-label">Prompt Unavailable</div>
                 <div class="scene-field-value">Generate storyboards first to unlock video prompts.</div>
-            </div>
-        </div>
-    `;
-}
-
-function renderSelectedVideoEvalPrompt() {
-    const prompts = app.state.videoPrompts || [];
-    const prompt = prompts[Number($('#videoEvalPromptSelect').value || 0)];
-    $('#videoEvalPromptPreview').innerHTML = prompt ? `
-        <div class="video-prompt-header">
-            <div>
-                <div class="scene-field-label">Evaluation Target</div>
-                <div class="video-prompt-title">${escapeHtml(prompt.title)}</div>
-            </div>
-            <div class="video-prompt-chip">${(prompt.shot_plan || []).length} shots</div>
-        </div>
-        <div class="video-prompt-meta">
-            <span class="video-prompt-pill">Storyboard: ${escapeHtml(prompt.storyboard_name || 'Untitled')}</span>
-            <span class="video-prompt-pill">Used as evaluation rubric</span>
-        </div>
-        <div class="video-prompt-copy">${escapeHtml(prompt.prompt)}</div>
-        <div class="prompt-shot-list">
-            <div class="scene-field-label">Shot Plan</div>
-            ${(prompt.shot_plan || []).map((item, index) => `
-                <div class="video-shot-item">
-                    <span class="video-shot-index">${index + 1}</span>
-                    <span>${escapeHtml(item)}</span>
-                </div>
-            `).join('')}
-        </div>
-    ` : `
-        <div class="video-empty-state">
-            <div class="video-empty-icon">?</div>
-            <div>
-                <div class="scene-field-label">Prompt Unavailable</div>
-                <div class="scene-field-value">Open the video generation stage first.</div>
             </div>
         </div>
     `;
@@ -845,7 +807,7 @@ app.evaluateGeneratedVideo = async function() {
             ? `${window.location.origin}${app.state.generatedVideo.video_url}`
             : app.state.generatedVideo.video_url;
         const formData = new FormData();
-        formData.append('prompt_index', $('#videoEvalPromptSelect').value || '0');
+        formData.append('prompt_index', $('#videoPromptSelect').value || '0');
         formData.append('video_url', videoUrl);
         const res = await apiCallForm(`/api/evaluate-video/${app.campaignId}`, formData);
         app.state.videoEvaluation = res;
@@ -868,7 +830,7 @@ app.evaluateVideoUrl = async function() {
     setLoading('evaluateUrlBtn', true);
     try {
         const formData = new FormData();
-        formData.append('prompt_index', $('#videoEvalPromptSelect').value || '0');
+        formData.append('prompt_index', $('#videoPromptSelect').value || '0');
         formData.append('video_url', videoUrl);
         const res = await apiCallForm(`/api/evaluate-video/${app.campaignId}`, formData);
         app.state.videoEvaluation = res;
@@ -984,10 +946,6 @@ app.runAdversarialTest = async function() {
     const videoPromptSelect = $('#videoPromptSelect');
     if (videoPromptSelect) {
         videoPromptSelect.addEventListener('change', renderSelectedVideoPrompt);
-    }
-    const videoEvalPromptSelect = $('#videoEvalPromptSelect');
-    if (videoEvalPromptSelect) {
-        videoEvalPromptSelect.addEventListener('change', renderSelectedVideoEvalPrompt);
     }
     $$('.example-preset').forEach(button => {
         button.addEventListener('click', () => applyExampleBrief(button.dataset.example));
