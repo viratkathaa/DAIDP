@@ -1,28 +1,50 @@
 """
 Generation Engine: Routes generation tasks to optimal AI models
-and handles response parsing. Supports Gemini, OpenAI, and demo mode.
+and handles response parsing. Supports Gemini, OpenAI, Groq small-task helpers, and demo mode.
 """
 
 import json
 import time
+import re
 from app import config
 from app.schemas import (
-    CampaignBrief, Persona, CampaignAngle, AdScript, Storyboard, SceneDescription
+    CampaignBrief, CampaignInput, BriefSuggestions, Persona,
+    CampaignAngle, AdScript, Storyboard, SceneDescription, IdeaExtraction
 )
 from app.context_engine import (
-    build_persona_prompt, build_angles_prompt,
-    build_script_prompt, build_storyboard_prompt, build_refinement_prompt
+    build_brief_assist_prompt, build_persona_prompt, build_angles_prompt,
+    build_script_prompt, build_storyboard_prompt, build_refinement_prompt,
+    build_target_market_expansion_prompt, build_idea_extraction_prompt
 )
+
+
+def _is_gemini_rate_limit_error(exc: Exception) -> bool:
+    message = str(exc).lower()
+    return (
+        "429" in message or
+        "resource_exhausted" in message or
+        "rate limit" in message or
+        "too many requests" in message
+    )
 
 
 def _call_gemini(prompt: str) -> str:
     from google import genai
     client = genai.Client(api_key=config.GEMINI_API_KEY)
-    response = client.models.generate_content(
-        model=config.GEMINI_MODEL,
-        contents=prompt,
-    )
-    return response.text
+    try:
+        response = client.models.generate_content(
+            model=config.GEMINI_MODEL,
+            contents=prompt,
+        )
+        return response.text
+    except Exception as exc:
+        if not _is_gemini_rate_limit_error(exc):
+            raise
+        response = client.models.generate_content(
+            model=config.GEMINI_FALLBACK_MODEL,
+            contents=prompt,
+        )
+        return response.text
 
 
 def _call_openai(prompt: str) -> str:
@@ -36,10 +58,27 @@ def _call_openai(prompt: str) -> str:
     return response.choices[0].message.content
 
 
+def _call_groq(prompt: str) -> str:
+    from groq import Groq
+    client = Groq(api_key=config.GROQ_API_KEY)
+    response = client.chat.completions.create(
+        model=config.GROQ_SMALL_MODEL,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.8,
+    )
+    return response.choices[0].message.content
+
+
 def _call_model(prompt: str) -> str:
     if config.AI_PROVIDER == "openai":
         return _call_openai(prompt)
     return _call_gemini(prompt)
+
+
+def _call_small_model(prompt: str) -> str:
+    if config.GROQ_API_KEY:
+        return _call_groq(prompt)
+    return _call_model(prompt)
 
 
 def _parse_json(text: str) -> dict | list:
@@ -59,7 +98,169 @@ def _parse_json(text: str) -> dict | list:
     return json.loads(text)
 
 
+def _compact_target_market_tag(tag: str) -> str:
+    cleaned = re.sub(r"[.,]", "", str(tag)).strip()
+    cleaned = re.sub(
+        r"\b(preparing for|planning for|focused on|aiming for|targeting|mastering|navigating|supporting|balancing|using|earning|making|creating|studying for|revising from|learning from)\b",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"\bclass notes and lecture slides\b", "lecture notes", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bstandardized exams\b", "test prep", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bcollege entrance exams\b", "entrance prep", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bprofessional certifications\b", "certifications", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bmixed materials\b", "mixed sources", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip(" -")
+
+    lower = cleaned.lower()
+    replacements = [
+        ("high-school seniors", "High-school seniors"),
+        ("high-school students", "High-school students"),
+        ("college students", "College students"),
+        ("undergraduate students", "Undergrads"),
+        ("graduate students", "Grad students"),
+        ("students", "Students"),
+        ("test-takers", "Test takers"),
+        ("adult learners", "Adult learners"),
+        ("language learners", "Language learners"),
+        ("mooc learners", "MOOC learners"),
+        ("mooc participants", "MOOC learners"),
+        ("online course enthusiasts", "Online learners"),
+        ("digital learners", "Online learners"),
+        ("virtual classroom users", "Online learners"),
+        ("self-paced course students", "Self-paced learners"),
+        ("working professionals", "Working professionals"),
+        ("parents", "Parents"),
+        ("international students", "International students"),
+    ]
+    for needle, replacement in replacements:
+        if lower.startswith(needle):
+            suffix = cleaned[len(needle):].strip()
+            return f"{replacement} {suffix}".strip()
+
+    return cleaned
+
+
+def _normalize_target_market_tags(tags: list[str]) -> list[str]:
+    normalized: list[str] = []
+    seen: set[str] = set()
+
+    for tag in tags:
+        compact = _compact_target_market_tag(tag)
+        compact = re.sub(r"\s+", " ", compact).strip()
+        if not compact:
+            continue
+
+        words = compact.split()
+        if len(words) > 5:
+            compact = " ".join(words[:5])
+
+        key = compact.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        normalized.append(compact)
+
+    return normalized
+
+
 # ─── Demo data for offline demonstrations ─────────────────────────
+
+def _demo_brief_suggestions(campaign_input: CampaignInput) -> BriefSuggestions:
+    raw = campaign_input.raw_idea.lower()
+    if any(term in raw for term in ["student", "study", "exam", "quiz", "flashcard", "pdf", "lecture"]):
+        description = (
+            f"{campaign_input.product_name} helps students turn study materials like PDFs, slides, "
+            "and recorded lessons into faster revision tools such as notes, quizzes, flashcards, "
+            "and summaries in one workspace."
+        )
+        target_markets = [
+            "High-school students preparing for major exams",
+            "College students revising from class notes and lecture slides",
+            "Competitive-exam learners studying across mixed materials",
+            "Students who learn from YouTube lessons and recorded classes",
+            "Coaching-center students who need faster revision workflows",
+        ]
+        objectives = [
+            "Drive new student signups",
+            "Increase daily study sessions",
+            "Improve repeat usage during exam periods",
+            "Boost feature adoption for quizzes and flashcards",
+            "Position the product as a faster way to revise",
+            "Increase retention after the first study session",
+        ]
+    else:
+        description = (
+            f"{campaign_input.product_name} gives users a simpler way to act on {campaign_input.raw_idea.strip()} "
+            "with a clear workflow, practical outcomes, and less manual effort."
+        )
+        target_markets = [
+            "Busy professionals looking for faster workflows",
+            "Small teams replacing manual processes",
+            "First-time users who want a simple starting point",
+            "Digital-first customers comparing modern tools",
+            "Budget-conscious buyers seeking practical value",
+        ]
+        objectives = [
+            "Drive qualified signups",
+            "Increase product activation",
+            "Improve weekly active usage",
+            "Position the product around speed and simplicity",
+            "Increase repeat usage",
+            "Improve conversion from interest to trial",
+        ]
+
+    return BriefSuggestions(
+        product_description=description,
+        target_markets=_normalize_target_market_tags(target_markets),
+        marketing_objectives=objectives,
+    )
+
+
+def _demo_related_target_markets(seed_tag: str, existing_tags: list[str]) -> list[str]:
+    seed = seed_tag.lower()
+    if "high-school" in seed or "school" in seed:
+        candidates = [
+            "Students preparing for board exams",
+            "Class 11-12 students revising science subjects",
+            "High-school students learning from school PDFs",
+            "Students balancing tuition homework and exams",
+            "Teens using short revision sessions after class",
+            "Students who prefer quiz-based revision",
+        ]
+    elif "college" in seed:
+        candidates = [
+            "Undergraduates revising before internal exams",
+            "Students organizing lecture slides into notes",
+            "College learners studying from recorded lectures",
+            "Semester-end revision focused students",
+            "Students preparing quick summaries before tests",
+            "Campus learners juggling multiple subjects",
+        ]
+    elif "competitive" in seed or "exam" in seed:
+        candidates = [
+            "Aspirants revising large syllabi in short bursts",
+            "Learners using mock tests and flashcards daily",
+            "Students combining coaching notes with YouTube lessons",
+            "Exam takers studying from mixed digital materials",
+            "Learners preparing for aptitude-heavy exams",
+            "Students who need rapid recall before practice tests",
+        ]
+    else:
+        candidates = [
+            f"{seed_tag} who study from mixed materials",
+            f"{seed_tag} looking for faster revision",
+            f"{seed_tag} using notes quizzes and flashcards",
+            f"{seed_tag} who learn from video lessons",
+            f"{seed_tag} preparing for timed exams",
+            f"{seed_tag} who want simpler study workflows",
+        ]
+
+    existing = {tag.strip().lower() for tag in existing_tags}
+    existing.add(seed.strip())
+    filtered = [candidate for candidate in candidates if candidate.strip().lower() not in existing][:6]
+    return _normalize_target_market_tags(filtered)
 
 def _demo_personas(brief: CampaignBrief) -> list[Persona]:
     return [
@@ -218,6 +419,42 @@ def generate_personas(brief: CampaignBrief) -> list[Persona]:
         return _demo_personas(brief)
 
 
+def generate_brief_suggestions(campaign_input: CampaignInput) -> BriefSuggestions:
+    if config.DEMO_MODE:
+        return _demo_brief_suggestions(campaign_input)
+
+    try:
+        prompt = build_brief_assist_prompt(campaign_input)
+        raw = _call_small_model(prompt)
+        data = _parse_json(raw)
+        data["target_markets"] = _normalize_target_market_tags(data.get("target_markets", []))
+        return BriefSuggestions(**data)
+    except Exception as e:
+        print(f"[WARN] AI call failed, falling back to demo data: {e}")
+        return _demo_brief_suggestions(campaign_input)
+
+
+def generate_related_target_markets(
+    campaign_input: CampaignInput,
+    seed_tag: str,
+    existing_tags: list[str],
+) -> list[str]:
+    if config.DEMO_MODE:
+        return _demo_related_target_markets(seed_tag, existing_tags)
+
+    try:
+        prompt = build_target_market_expansion_prompt(campaign_input, seed_tag, existing_tags)
+        raw = _call_small_model(prompt)
+        data = _parse_json(raw)
+        return _normalize_target_market_tags([
+            item.strip() for item in data.get("target_markets", [])
+            if isinstance(item, str) and item.strip()
+        ])[:6]
+    except Exception as e:
+        print(f"[WARN] AI call failed, falling back to demo data: {e}")
+        return _demo_related_target_markets(seed_tag, existing_tags)
+
+
 def generate_angles(brief: CampaignBrief, personas: list[Persona]) -> list[CampaignAngle]:
     if config.DEMO_MODE:
         return _demo_angles(brief)
@@ -278,3 +515,25 @@ def refine_content(brief: CampaignBrief, stage: str, content: str, instruction: 
 
     prompt = build_refinement_prompt(stage, content, instruction, brief)
     return _call_model(prompt)
+
+
+def extract_idea_fields(raw_idea: str) -> IdeaExtraction:
+    if config.DEMO_MODE:
+        return IdeaExtraction(
+            brand_name="AdForge AI",
+            product_name="AI Ad Platform",
+            refined_idea=f"A platform for generating AI ads based on {raw_idea}"
+        )
+
+    try:
+        prompt = build_idea_extraction_prompt(raw_idea)
+        raw = _call_small_model(prompt)
+        data = _parse_json(raw)
+        return IdeaExtraction(**data)
+    except Exception as e:
+        print(f"[WARN] AI call failed during idea extraction: {e}")
+        return IdeaExtraction(
+            brand_name="New Brand",
+            product_name="New Service",
+            refined_idea=raw_idea
+        )

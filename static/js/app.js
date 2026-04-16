@@ -8,6 +8,45 @@ const app = {
     currentRefine: null,
 };
 
+const EXAMPLE_BRIEFS = {
+    nike: {
+        brand_name: 'Nike',
+        product_name: 'Pegasus Turbo Next',
+        product_description: 'A high-performance running shoe designed for urban runners who want speed, responsive cushioning, and street-ready style.',
+        target_market: 'Young urban runners and style-conscious fitness consumers',
+        marketing_objectives: 'Drive launch awareness, boost product consideration, and increase online purchases',
+        platform: 'instagram',
+        budget_tier: 'high',
+        brand_guidelines: 'Bold, kinetic, premium, aspirational, black-white-orange palette',
+        prohibited_claims: '',
+        competitors: 'Adidas, New Balance',
+    },
+    coffee: {
+        brand_name: 'Volt Brew',
+        product_name: 'Cold Charge RTD',
+        product_description: 'A ready-to-drink caffeinated coffee beverage that blends energy-drink intensity with premium iced coffee taste for busy professionals and creators.',
+        target_market: 'Busy professionals, creators, and on-the-go consumers needing clean energy',
+        marketing_objectives: 'Drive trial, build brand awareness, and increase repeat purchase intent',
+        platform: 'instagram',
+        budget_tier: 'mid',
+        brand_guidelines: 'Modern, sharp, fast-paced, premium convenience, silver and espresso tones',
+        prohibited_claims: 'Guaranteed productivity boosts',
+        competitors: 'Red Bull, Monster, Starbucks',
+    },
+    beauty: {
+        brand_name: 'Luma Skin',
+        product_name: 'Radiant Ritual Collection',
+        product_description: 'A premium skincare and makeup line centered on radiant skin, confidence, and elevated daily beauty rituals.',
+        target_market: 'Beauty-conscious consumers seeking premium daily skincare and makeup rituals',
+        marketing_objectives: 'Increase brand desirability, drive collection sales, and improve social engagement',
+        platform: 'instagram',
+        budget_tier: 'high',
+        brand_guidelines: 'Polished, luxurious, emotionally resonant, soft neutrals and gold accents',
+        prohibited_claims: 'Guaranteed skin transformation',
+        competitors: 'Rare Beauty, Charlotte Tilbury, Fenty Beauty',
+    }
+};
+
 /* ─── Utilities ────────────────────────────────────── */
 function $(sel) { return document.querySelector(sel); }
 function $$(sel) { return document.querySelectorAll(sel); }
@@ -52,8 +91,19 @@ async function apiCall(method, path, body = null) {
     return res.json();
 }
 
+async function apiCallForm(path, formData) {
+    app.apiCalls++;
+    $('#apiCalls').textContent = app.apiCalls;
+    const res = await fetch(API + path, { method: 'POST', body: formData });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: 'Request failed' }));
+        throw new Error(err.detail || 'API error');
+    }
+    return res.json();
+}
+
 /* ─── Navigation ───────────────────────────────────── */
-const STEPS = ['brief', 'personas', 'angles', 'scripts', 'storyboards', 'evaluation'];
+const STEPS = ['brief', 'personas', 'angles', 'scripts', 'storyboards', 'evaluation', 'video-generation', 'video-evaluation'];
 
 app.goToStep = function(step) {
     $$('.step-panel').forEach(p => p.classList.remove('active'));
@@ -65,7 +115,13 @@ app.goToStep = function(step) {
 $$('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
         const step = item.dataset.step;
-        if (step === 'brief' || app.state[step]) {
+        if (
+            step === 'brief' ||
+            app.state[step] ||
+            (step === 'evaluation' && app.state.evaluation) ||
+            (step === 'video-generation' && (app.state['video-generation'] || app.state.evaluation)) ||
+            (step === 'video-evaluation' && (app.state['video-evaluation'] || app.state['video-generation'] || app.state.videoEvaluation))
+        ) {
             app.goToStep(step);
         }
     });
@@ -82,6 +138,32 @@ function updateTime(timeSec) {
         .filter(v => typeof v === 'number')
         .reduce((a, b) => a + b, 0);
     $('#totalTime').textContent = total.toFixed(1) + 's';
+}
+
+function applyExampleBrief(exampleKey) {
+    const brief = EXAMPLE_BRIEFS[exampleKey];
+    if (!brief) return;
+    $('#brand_name').value = brief.brand_name;
+    $('#product_name').value = brief.product_name;
+    $('#product_description').value = brief.product_description;
+    $('#target_market').value = brief.target_market;
+    $('#marketing_objectives').value = brief.marketing_objectives;
+    $('#platform').value = brief.platform;
+    $('#budget_tier').value = brief.budget_tier;
+    $('#brand_guidelines').value = brief.brand_guidelines;
+    $('#prohibited_claims').value = brief.prohibited_claims;
+    $('#competitors').value = brief.competitors;
+    $$('.example-preset').forEach(btn => btn.classList.toggle('active', btn.dataset.example === exampleKey));
+    showToast('Example brief loaded.', 'success');
+}
+
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 /* ─── Step 1: Submit Brief ─────────────────────────── */
@@ -463,6 +545,344 @@ function renderEvaluation(evaluation, constraints, metrics) {
     `;
 }
 
+function renderVideoPromptOptions(prompts) {
+    const options = (prompts || []).map((prompt, index) => (
+        `<option value="${index}">${escapeHtml(prompt.storyboard_name || `Prompt ${index + 1}`)}</option>`
+    )).join('');
+    $('#videoPromptSelect').innerHTML = options;
+    $('#videoEvalPromptSelect').innerHTML = options;
+    renderSelectedVideoPrompt();
+    renderSelectedVideoEvalPrompt();
+}
+
+function renderSelectedVideoPrompt() {
+    const prompts = app.state.videoPrompts || [];
+    const prompt = prompts[Number($('#videoPromptSelect').value || 0)];
+    $('#videoPromptPreview').innerHTML = prompt ? `
+        <div class="video-prompt-header">
+            <div>
+                <div class="scene-field-label">Selected Prompt</div>
+                <div class="video-prompt-title">${escapeHtml(prompt.title)}</div>
+            </div>
+            <div class="video-prompt-chip">${(prompt.shot_plan || []).length} shots</div>
+        </div>
+        <div class="video-prompt-meta">
+            <span class="video-prompt-pill">Storyboard: ${escapeHtml(prompt.storyboard_name || 'Untitled')}</span>
+            <span class="video-prompt-pill">Prompt ready for BYOK generation</span>
+        </div>
+        <div class="video-prompt-copy">${escapeHtml(prompt.prompt)}</div>
+        <div class="prompt-shot-list">
+            <div class="scene-field-label">Shot Plan</div>
+            ${(prompt.shot_plan || []).map((item, index) => `
+                <div class="video-shot-item">
+                    <span class="video-shot-index">${index + 1}</span>
+                    <span>${escapeHtml(item)}</span>
+                </div>
+            `).join('')}
+        </div>
+    ` : `
+        <div class="video-empty-state">
+            <div class="video-empty-icon">+</div>
+            <div>
+                <div class="scene-field-label">Prompt Unavailable</div>
+                <div class="scene-field-value">Generate storyboards first to unlock video prompts.</div>
+            </div>
+        </div>
+    `;
+}
+
+function renderSelectedVideoEvalPrompt() {
+    const prompts = app.state.videoPrompts || [];
+    const prompt = prompts[Number($('#videoEvalPromptSelect').value || 0)];
+    $('#videoEvalPromptPreview').innerHTML = prompt ? `
+        <div class="video-prompt-header">
+            <div>
+                <div class="scene-field-label">Evaluation Target</div>
+                <div class="video-prompt-title">${escapeHtml(prompt.title)}</div>
+            </div>
+            <div class="video-prompt-chip">${(prompt.shot_plan || []).length} shots</div>
+        </div>
+        <div class="video-prompt-meta">
+            <span class="video-prompt-pill">Storyboard: ${escapeHtml(prompt.storyboard_name || 'Untitled')}</span>
+            <span class="video-prompt-pill">Used as evaluation rubric</span>
+        </div>
+        <div class="video-prompt-copy">${escapeHtml(prompt.prompt)}</div>
+        <div class="prompt-shot-list">
+            <div class="scene-field-label">Shot Plan</div>
+            ${(prompt.shot_plan || []).map((item, index) => `
+                <div class="video-shot-item">
+                    <span class="video-shot-index">${index + 1}</span>
+                    <span>${escapeHtml(item)}</span>
+                </div>
+            `).join('')}
+        </div>
+    ` : `
+        <div class="video-empty-state">
+            <div class="video-empty-icon">?</div>
+            <div>
+                <div class="scene-field-label">Prompt Unavailable</div>
+                <div class="scene-field-value">Open the video generation stage first.</div>
+            </div>
+        </div>
+    `;
+}
+
+function renderGeneratedVideoCard() {
+    const video = app.state.generatedVideo;
+    const videoUrl = video?.video_url || '';
+    const preview = videoUrl ? `
+        <div class="generated-video-frame">
+            <video controls preload="metadata" src="${escapeHtml(videoUrl)}"></video>
+        </div>
+    ` : '';
+    $('#generatedVideoCard').innerHTML = video ? `
+        <div class="generated-state-header">
+            <div>
+                <div class="scene-field-label">Latest Generated Video</div>
+                <div class="generated-title">${escapeHtml(video.prompt_title || 'Generated output')}</div>
+            </div>
+            <div class="generated-status-badge">Ready</div>
+        </div>
+        ${preview}
+        <div class="generated-meta-grid">
+            <div class="generated-meta-card">
+                <span class="generated-meta-label">Model</span>
+                <strong>${escapeHtml(video.model || 'unknown')}</strong>
+            </div>
+            <div class="generated-meta-card">
+                <span class="generated-meta-label">Job ID</span>
+                <strong>${escapeHtml(video.provider_job_id || 'n/a')}</strong>
+            </div>
+            <div class="generated-meta-card">
+                <span class="generated-meta-label">Render Time</span>
+                <strong>${escapeHtml(String(video.time_taken ?? 'n/a'))}${video.time_taken != null ? 's' : ''}</strong>
+            </div>
+        </div>
+        <div class="generated-link"><a href="${escapeHtml(videoUrl)}" target="_blank" rel="noreferrer">Open generated file</a></div>
+    ` : `
+        <div class="video-empty-state">
+            <div class="video-empty-icon">&#9654;</div>
+            <div>
+                <div class="scene-field-label">No Render Yet</div>
+                <div class="scene-field-value">Run a generation to preview the latest output here.</div>
+            </div>
+        </div>
+    `;
+}
+
+function renderVideoEvaluationSourceCard() {
+    const video = app.state.generatedVideo;
+    const videoUrl = video?.video_url || '';
+    $('#videoEvalSourceCard').innerHTML = video ? `
+        <div class="generated-state-header">
+            <div>
+                <div class="scene-field-label">Latest Generated Video</div>
+                <div class="generated-title">${escapeHtml(video.prompt_title || 'Generated output')}</div>
+            </div>
+            <div class="generated-status-badge">Ready</div>
+        </div>
+        <div class="generated-meta-grid">
+            <div class="generated-meta-card">
+                <span class="generated-meta-label">Model</span>
+                <strong>${escapeHtml(video.model || 'unknown')}</strong>
+            </div>
+            <div class="generated-meta-card">
+                <span class="generated-meta-label">Source</span>
+                <strong>Generated</strong>
+            </div>
+        </div>
+        <div class="generated-link"><a href="${escapeHtml(videoUrl)}" target="_blank" rel="noreferrer">Open generated file</a></div>
+    ` : `
+        <div class="video-empty-state">
+            <div class="video-empty-icon">&#128279;</div>
+            <div>
+                <div class="scene-field-label">No Generated Video</div>
+                <div class="scene-field-value">Paste a direct video URL below, or generate a video first.</div>
+            </div>
+        </div>
+    `;
+}
+
+function scoreColorVideo(score) {
+    if (score >= 8) return 'var(--success)';
+    if (score >= 6) return 'var(--primary)';
+    if (score >= 4) return 'var(--warning)';
+    return 'var(--error)';
+}
+
+function renderVideoEvaluation(payload) {
+    const evaluation = payload.evaluation;
+    const sheets = payload.storyboard_sheets || [];
+    $('#videoEvalDashboard').innerHTML = `
+        <div class="video-eval-grid">
+            <div class="score-card overall">
+                <div class="score-label">Overall Video Ad Score</div>
+                <div class="score-value">${evaluation.overall_score}</div>
+                <div class="score-label">${escapeHtml(payload.storyboard_name || '')}</div>
+            </div>
+            <div class="score-card">
+                <div class="score-label">Brand Alignment</div>
+                <div class="score-value" style="color:${scoreColorVideo(evaluation.brand_alignment)}">${evaluation.brand_alignment}</div>
+            </div>
+            <div class="score-card">
+                <div class="score-label">Message Clarity</div>
+                <div class="score-value" style="color:${scoreColorVideo(evaluation.message_clarity)}">${evaluation.message_clarity}</div>
+            </div>
+            <div class="score-card">
+                <div class="score-label">Visual Quality</div>
+                <div class="score-value" style="color:${scoreColorVideo(evaluation.visual_quality)}">${evaluation.visual_quality}</div>
+            </div>
+            <div class="score-card">
+                <div class="score-label">Prompt Alignment</div>
+                <div class="score-value" style="color:${scoreColorVideo(evaluation.prompt_alignment)}">${evaluation.prompt_alignment}</div>
+            </div>
+            <div class="feedback-section">
+                <h3>Overall Summary</h3>
+                <div class="video-summary">${escapeHtml(evaluation.summary)}</div>
+                <div class="video-segment-list">
+                    ${(evaluation.segments || []).map(segment => `
+                        <div class="feedback-item">
+                            <span class="feedback-dot" style="background:${segment.color === 'green' ? 'var(--success)' : 'var(--error)'}"></span>
+                            <span><strong>${segment.start_seconds}s-${segment.end_seconds}s · ${escapeHtml(segment.label)}</strong><br>${escapeHtml(segment.detail)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="feedback-section">
+                <h3>Storyboard Contact Sheets</h3>
+                <div class="storyboard-sheet-grid">
+                    ${sheets.map(sheet => `
+                        <div class="sheet-card">
+                            <img src="${escapeHtml(sheet.image_url)}" alt="Storyboard sheet">
+                            <div class="sheet-meta">Seconds: ${escapeHtml((sheet.timestamps || []).join(', '))}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+app.openVideoGeneration = async function() {
+    setLoading('openVideoStageBtn', true);
+    try {
+        const res = await apiCall('POST', `/api/generate/${app.campaignId}/video-prompts`);
+        app.state.videoPrompts = res.prompts;
+        app.state['video-generation'] = true;
+        renderVideoPromptOptions(res.prompts);
+        renderGeneratedVideoCard();
+        renderVideoEvaluationSourceCard();
+        markStepCompleted('video-generation');
+        app.goToStep('video-generation');
+        showToast('Video prompts ready.', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+    setLoading('openVideoStageBtn', false);
+};
+
+app.generateVideo = async function() {
+    const apiKey = $('#videoApiKey').value.trim();
+    if (!apiKey) return showToast('Enter an API key first', 'error');
+
+    setLoading('generateVideoBtn', true);
+    try {
+        const formData = new FormData();
+        formData.append('prompt_index', $('#videoPromptSelect').value || '0');
+        formData.append('model', $('#videoModel').value);
+        formData.append('api_key', apiKey);
+        const res = await apiCallForm(`/api/generate-video/${app.campaignId}`, formData);
+        app.state.generatedVideo = res;
+        renderGeneratedVideoCard();
+        renderVideoEvaluationSourceCard();
+        showToast('Video generated.', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+    setLoading('generateVideoBtn', false);
+};
+
+app.copyStoryboardPrompt = async function() {
+    const prompts = app.state.videoPrompts || [];
+    const prompt = prompts[Number($('#videoPromptSelect').value || 0)];
+    if (!prompt) return showToast('No prompt available', 'error');
+    try {
+        await navigator.clipboard.writeText(prompt.prompt);
+        showToast('Prompt copied.', 'success');
+    } catch {
+        showToast('Clipboard access failed', 'error');
+    }
+};
+
+app.openVideoEvaluation = async function() {
+    setLoading('openVideoEvalStageBtn', true);
+    try {
+        if (!app.state.videoPrompts) {
+            const res = await apiCall('POST', `/api/generate/${app.campaignId}/video-prompts`);
+            app.state.videoPrompts = res.prompts;
+        }
+        app.state['video-evaluation'] = true;
+        renderVideoPromptOptions(app.state.videoPrompts);
+        renderGeneratedVideoCard();
+        renderVideoEvaluationSourceCard();
+        if (app.state.videoEvaluation) {
+            renderVideoEvaluation(app.state.videoEvaluation);
+        }
+        app.goToStep('video-evaluation');
+        showToast('Video evaluation ready.', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+    setLoading('openVideoEvalStageBtn', false);
+};
+
+app.evaluateGeneratedVideo = async function() {
+    if (!app.state.generatedVideo?.video_url) return showToast('No generated video available', 'error');
+
+    setLoading('evaluateGeneratedBtn', true);
+    try {
+        const videoUrl = app.state.generatedVideo.video_url.startsWith('/')
+            ? `${window.location.origin}${app.state.generatedVideo.video_url}`
+            : app.state.generatedVideo.video_url;
+        const formData = new FormData();
+        formData.append('prompt_index', $('#videoEvalPromptSelect').value || '0');
+        formData.append('video_url', videoUrl);
+        const res = await apiCallForm(`/api/evaluate-video/${app.campaignId}`, formData);
+        app.state.videoEvaluation = res;
+        app.state['video-evaluation'] = true;
+        renderVideoEvaluationSourceCard();
+        renderVideoEvaluation(res);
+        markStepCompleted('video-evaluation');
+        app.goToStep('video-evaluation');
+        showToast('Generated video evaluated.', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+    setLoading('evaluateGeneratedBtn', false);
+};
+
+app.evaluateVideoUrl = async function() {
+    const videoUrl = $('#videoEvalUrl').value.trim();
+    if (!videoUrl) return showToast('Enter a direct video URL', 'error');
+
+    setLoading('evaluateUrlBtn', true);
+    try {
+        const formData = new FormData();
+        formData.append('prompt_index', $('#videoEvalPromptSelect').value || '0');
+        formData.append('video_url', videoUrl);
+        const res = await apiCallForm(`/api/evaluate-video/${app.campaignId}`, formData);
+        app.state.videoEvaluation = res;
+        app.state['video-evaluation'] = true;
+        renderVideoEvaluation(res);
+        markStepCompleted('video-evaluation');
+        app.goToStep('video-evaluation');
+        showToast('Video URL evaluated.', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+    setLoading('evaluateUrlBtn', false);
+};
+
 /* ─── Constraint Badges ────────────────────────────── */
 function renderConstraintBadge(stage, result) {
     const el = $(`#constraint-${stage}`);
@@ -553,6 +973,25 @@ app.runAdversarialTest = async function() {
 
 /* ─── Init ─────────────────────────────────────────── */
 (async function init() {
+    const bindButton = (id, handler) => {
+        const el = $(id);
+        if (el) el.addEventListener('click', handler);
+    };
+    bindButton('#generateVideoBtn', app.generateVideo);
+    bindButton('#copyStoryboardPromptBtn', app.copyStoryboardPrompt);
+    bindButton('#evaluateGeneratedBtn', app.evaluateGeneratedVideo);
+    bindButton('#evaluateUrlBtn', app.evaluateVideoUrl);
+    const videoPromptSelect = $('#videoPromptSelect');
+    if (videoPromptSelect) {
+        videoPromptSelect.addEventListener('change', renderSelectedVideoPrompt);
+    }
+    const videoEvalPromptSelect = $('#videoEvalPromptSelect');
+    if (videoEvalPromptSelect) {
+        videoEvalPromptSelect.addEventListener('change', renderSelectedVideoEvalPrompt);
+    }
+    $$('.example-preset').forEach(button => {
+        button.addEventListener('click', () => applyExampleBrief(button.dataset.example));
+    });
     try {
         const health = await apiCall('GET', '/health');
         if (!health.demo_mode) {

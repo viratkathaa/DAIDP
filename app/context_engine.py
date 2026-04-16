@@ -3,7 +3,7 @@ Context Engine: Formats campaign inputs into structured prompt chains
 for optimal model generation across each pipeline stage.
 """
 
-from app.schemas import CampaignBrief, AdPlatform
+from app.schemas import CampaignBrief, CampaignInput, AdPlatform
 
 
 PLATFORM_SPECS = {
@@ -52,6 +52,73 @@ For each persona, provide:
 - persona_summary: 2-3 sentence summary of this persona
 
 Return ONLY valid JSON as an array of 3 persona objects. No markdown, no explanation."""
+
+
+def build_brief_assist_prompt(campaign_input: CampaignInput) -> str:
+    platform = PLATFORM_SPECS.get(campaign_input.platform, PLATFORM_SPECS[AdPlatform.INSTAGRAM])
+    return f"""You are helping a marketer turn a rough product idea into a clean campaign brief.
+
+Brand: {campaign_input.brand_name}
+Product: {campaign_input.product_name}
+Raw Idea: {campaign_input.raw_idea}
+Platform: {campaign_input.platform.value} ({platform['format']})
+Budget Tier: {campaign_input.budget_tier}
+Brand Guidelines: {campaign_input.brand_guidelines or 'Not provided yet'}
+Prohibited Claims: {campaign_input.prohibited_claims or 'Not provided yet'}
+Competitors to Avoid: {campaign_input.competitors or 'Not provided yet'}
+
+Generate:
+- product_description: one concise, clear paragraph
+- target_markets: exactly 5 short audience options the user can choose from
+- marketing_objectives: exactly 6 short marketing objective options the user can choose from
+
+Requirements:
+- Keep the writing practical and easy to review
+- Make target markets specific and user-facing, not vague categories
+- Keep each target market tag short, ideally 2 to 5 words
+- Make marketing objectives action-oriented
+- Do not mention prohibited claims or competitors unless the user already provided them
+
+Return ONLY valid JSON in this shape:
+{{
+  "product_description": "string",
+  "target_markets": ["string"],
+  "marketing_objectives": ["string"]
+}}
+No markdown, no explanation."""
+
+
+def build_target_market_expansion_prompt(
+    campaign_input: CampaignInput,
+    seed_tag: str,
+    existing_tags: list[str],
+) -> str:
+    platform = PLATFORM_SPECS.get(campaign_input.platform, PLATFORM_SPECS[AdPlatform.INSTAGRAM])
+    existing = ", ".join(existing_tags) if existing_tags else "None yet"
+    return f"""You are expanding target-audience ideas for a campaign brief.
+
+Brand: {campaign_input.brand_name}
+Product: {campaign_input.product_name}
+Raw Idea: {campaign_input.raw_idea}
+Platform: {campaign_input.platform.value} ({platform['format']})
+Current selected audience tag: {seed_tag}
+Existing audience tags already shown: {existing}
+
+Generate exactly 6 additional target audience tags that are closely related to the selected tag.
+
+Requirements:
+- Keep each tag short, specific, and user-facing
+- Keep each tag ideally 2 to 5 words
+- Make the tags meaningfully similar to "{seed_tag}", not generic
+- Do not repeat the selected tag
+- Do not repeat any existing tags
+- Avoid vague labels like "general users" or "professionals"
+
+Return ONLY valid JSON in this shape:
+{{
+  "target_markets": ["string"]
+}}
+No markdown, no explanation."""
 
 
 def build_angles_prompt(brief: CampaignBrief, personas_text: str) -> str:
@@ -157,5 +224,25 @@ User refinement request: "{instruction}"
 
 Modify the content above according to the user's request. Maintain the same JSON structure and format.
 Ensure changes are consistent with the brand context.
-
 Return ONLY the modified JSON. No markdown, no explanation."""
+
+
+def build_idea_extraction_prompt(raw_idea: str) -> str:
+    return f"""You are a senior brand consultant. A user has provided a rough idea for a new product or service.
+Your task is to extract and refine the brand name, product/service name, and a concise version of the idea.
+
+USER'S ROUGH IDEA:
+"{raw_idea}"
+
+Instructions:
+1. brand_name: If the user mentioned a specific brand name, extract it. If not, suggest a punchy, professional name based on the idea.
+2. product_name: Extract or suggest a clear 2-4 word name for the product/service.
+3. refined_idea: Rewrite the user's idea into a clear, professional 1-2 sentence description that captures the core value proposition.
+
+Return ONLY valid JSON in this shape:
+{{
+  "brand_name": "string",
+  "product_name": "string",
+  "refined_idea": "string"
+}}
+No markdown, no explanation."""

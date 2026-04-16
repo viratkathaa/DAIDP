@@ -3,3 +3,33 @@ __pycache__/
 *.pyc
 .claude/
 *.pdf
+venv/
+.venv/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sqlite
+
+# Local development artifacts
+demo.mp4
+*.patch
+.cache/
+
+# Python specific caches
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Node (in case of frontend)
+node_modules/
+.npm

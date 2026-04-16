@@ -49,6 +49,16 @@
                     <span class="step-label">Evaluation</span>
                     <span class="step-status"></span>
                 </li>
+                <li class="nav-item" data-step="video-generation">
+                    <span class="step-num">7</span>
+                    <span class="step-label">Video Generation</span>
+                    <span class="step-status"></span>
+                </li>
+                <li class="nav-item" data-step="video-evaluation">
+                    <span class="step-num">8</span>
+                    <span class="step-label">Video Evaluation</span>
+                    <span class="step-status"></span>
+                </li>
             </ul>
         </nav>
         <div class="sidebar-footer">
@@ -68,6 +78,26 @@
                 <p>Provide your brand and campaign information to start the AI-powered ad generation pipeline.</p>
             </div>
             <form id="briefForm" class="brief-form">
+                <div class="example-presets">
+                    <div class="example-presets-head">
+                        <h3>Example Briefs</h3>
+                        <p>These three examples use cached stage outputs after the first run.</p>
+                    </div>
+                    <div class="example-preset-grid">
+                        <button class="example-preset" type="button" data-example="nike">
+                            <strong>Nike Launch</strong>
+                            <span>Performance sneaker launch for urban runners.</span>
+                        </button>
+                        <button class="example-preset" type="button" data-example="coffee">
+                            <strong>RTD Coffee</strong>
+                            <span>Energy-meets-coffee positioning for busy creators.</span>
+                        </button>
+                        <button class="example-preset" type="button" data-example="beauty">
+                            <strong>Beauty Ritual</strong>
+                            <span>Premium skincare and makeup collection launch.</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="brand_name">Brand Name *</label>
@@ -205,7 +235,118 @@
             <div class="eval-dashboard" id="evalDashboard"></div>
             <div class="step-actions">
                 <button class="btn btn-outline" onclick="app.goToStep('storyboards')">Back</button>
+                <button class="btn btn-primary" id="openVideoStageBtn" onclick="app.openVideoGeneration()">
+                    <span class="btn-text">Open Video Generation</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
                 <button class="btn btn-secondary" onclick="app.showAdversarialTest()">Run Guardrail Test</button>
+            </div>
+        </section>
+
+        <section class="step-panel" id="panel-video-generation">
+            <div class="panel-header">
+                <h1>Video Generation</h1>
+                <p>Use your own model API key to generate from a storyboard prompt, or copy the prompt and run it yourself.</p>
+            </div>
+            <div class="video-generation-shell">
+                <div class="video-workspace">
+                    <section class="video-stage-card video-stage-card-prompt">
+                        <div class="video-stage-header">
+                            <div>
+                                <span class="video-stage-kicker">Prompt Studio</span>
+                                <h3>Storyboard prompt</h3>
+                                <p>Select a storyboard variant and inspect the generated direction before sending it to a model.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="videoPromptSelect">Storyboard Prompt</label>
+                            <select id="videoPromptSelect"></select>
+                        </div>
+                        <div class="prompt-preview" id="videoPromptPreview"></div>
+                    </section>
+
+                    <section class="video-stage-card video-stage-card-console">
+                        <div class="video-stage-header">
+                            <div>
+                                <span class="video-stage-kicker">Generation Console</span>
+                                <h3>Model and output</h3>
+                                <p>Choose a BYOK model, run generation, and inspect the latest result in one place.</p>
+                            </div>
+                        </div>
+                        <div class="video-console-stack">
+                            <div class="form-group">
+                            <label for="videoModel">BYOK Model</label>
+                            <select id="videoModel">
+                                <option value="grok-imagine-video">grok-imagine-video</option>
+                                <option value="veo-3.1-fast-generate-preview">veo-3.1-fast-generate-preview</option>
+                                <option value="veo-3.1-generate-preview">veo-3.1-generate-preview</option>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="videoApiKey">API Key</label>
+                                <input type="password" id="videoApiKey" placeholder="Paste your model API key">
+                            </div>
+                            <div class="video-console-note">
+                                <strong>BYOK only.</strong>
+                                <span>Your API key stays in this session and is used only for the selected generation request.</span>
+                            </div>
+                            <div class="inline-actions video-console-actions">
+                                <button class="btn btn-outline" id="copyStoryboardPromptBtn" type="button">Copy Prompt</button>
+                                <button class="btn btn-primary" id="generateVideoBtn" type="button">
+                                    <span class="btn-text">Generate Video</span>
+                                    <span class="btn-loader hidden"></span>
+                                </button>
+                            </div>
+                            <div class="generated-source" id="generatedVideoCard"></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="step-actions">
+                <button class="btn btn-outline" onclick="app.goToStep('evaluation')">Back</button>
+                <button class="btn btn-primary" id="openVideoEvalStageBtn" type="button" onclick="app.openVideoEvaluation()">
+                    <span class="btn-text">Open Video Evaluation</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </div>
+        </section>
+
+        <section class="step-panel" id="panel-video-evaluation">
+            <div class="panel-header">
+                <h1>Video Evaluation</h1>
+                <p>Score a generated video or a direct video URL against the selected storyboard prompt using storyboard contact sheets and an overall ad-quality review.</p>
+            </div>
+            <div class="video-review-card">
+                <div class="video-review-grid">
+                    <div>
+                        <div class="form-group">
+                            <label for="videoEvalPromptSelect">Storyboard Prompt</label>
+                            <select id="videoEvalPromptSelect"></select>
+                        </div>
+                        <div class="prompt-preview" id="videoEvalPromptPreview"></div>
+                    </div>
+                    <div>
+                        <div class="generated-source" id="videoEvalSourceCard"></div>
+                        <div class="form-group" style="margin-top:16px;">
+                            <label for="videoEvalUrl">Direct Video URL</label>
+                            <input type="url" id="videoEvalUrl" placeholder="https://example.com/video.mp4">
+                        </div>
+                        <div class="inline-actions">
+                            <button class="btn btn-primary" id="evaluateGeneratedBtn" type="button">
+                                <span class="btn-text">Evaluate Generated Video</span>
+                                <span class="btn-loader hidden"></span>
+                            </button>
+                            <button class="btn btn-secondary" id="evaluateUrlBtn" type="button">
+                                <span class="btn-text">Evaluate Video URL</span>
+                                <span class="btn-loader hidden"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="videoEvalDashboard"></div>
+            <div class="step-actions">
+                <button class="btn btn-outline" onclick="app.goToStep('video-generation')">Back</button>
             </div>
         </section>
 
